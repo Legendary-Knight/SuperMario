@@ -119,8 +119,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		collisionT=false;
 		collisionB=false;
 		
-		
-		
+		for(int x=0; x<goombas.length;x++) {
+			collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,p1.getX()+92,p1.getX(),p1.getY(),p1.getY()+250);
+			
+			System.out.println(collisionL);
+			System.out.println(collisionR);		
+			for(int i=0; i<bricks.length;i++) {
+				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,bricks[i].getX()+46,bricks[i].getX(),bricks[i].getY(),bricks[i].getY()+46);
+			}
+			for(Background thisG: ground) { 
+				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46);
+			}
+			System.out.println(collisionB);
+		}
 		
 		
 		
@@ -351,13 +362,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		
 	}
-	public void collision(int MarioR, int MarioL, int MarioT, int MarioB, int ObjR,int ObjL, int ObjT, int ObjB) {
+	public void collision(double MarioR, double MarioL, double MarioT, double MarioB, double ObjR,double ObjL, double ObjT, double ObjB) {
 		System.out.println(MSpeedY);
 		MarioB-=9;
 		if(MarioR>ObjL && MarioL<ObjR) {
-			int distance = ObjT-(MarioB-5);
+			double distance = ObjT-(MarioB-5);
 			if(Math.abs(MSpeedY) > distance  && MSpeedY<0 && distance>1) {
-				MSpeedY=Math.abs(distance)*-1;
+				MSpeedY=(int) (Math.abs(distance)*-1);
 			}
 		}
 		

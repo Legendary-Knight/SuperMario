@@ -11,7 +11,7 @@ public class Goomba{
 	private Image img; 	
 	private AffineTransform tx;
 	private double x =0,y=0;
-	private double xSpeed = 10, ySpeed =0;
+	private double xSpeed = 0, ySpeed =0;
 	public Goomba(double x, double y) {
 		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
 		this.x = x;
@@ -47,29 +47,29 @@ public class Goomba{
 	
 	private void update() {
 		tx.setToTranslation(x,y);
-		tx.scale(.05, .05);
+		tx.scale(.055, .055);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(.25, .25);
 	}
-	public double getGeX() {
+	public double getX() {
 		return x;
 	}
-	public double getGY() {
+	public double getY() {
 		return y;
 	}
-	public double getGSpeedX() {
+	public double getSpeedX() {
 		return xSpeed;
 	}
-	public double getGSpeedY() {
+	public double getSpeedY() {
 		return ySpeed;
 	}
-	public void setGSpeedX(double newXSpeed) {
+	public void setSpeedX(double newXSpeed) {
 		xSpeed = newXSpeed;
 	}
-	public void setGpeedY(double newYSpeed) {
+	public void setpeedY(double newYSpeed) {
 		ySpeed = newYSpeed;
 	}
 	/*
