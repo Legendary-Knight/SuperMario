@@ -7,15 +7,39 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Goomba{
+public class MarioWL{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
-	private double xSpeed = 5, ySpeed =0;
-	public Goomba(double x, double y) {
-		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
+	private int x =0,y=0;
+	private double scale =.045;
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
 		this.x = x;
-		this.y= y;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public double getScale() {
+		return scale;
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
+
+	public MarioWL(int x, int y) {
+		img = getImage("/imgs/SMW1.gif"); //load the image for Tree
+		this.x=x;
+		this.y=y;
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
@@ -31,75 +55,30 @@ public class Goomba{
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
-		x-=xSpeed;
-		y+=ySpeed;
-		/*
-		if (x >= 740||x <=5) {
-			xSpeed*=-1;
-		}
-		if (y >= 385|| y <= 5 ) {
-			ySpeed*=-1;
-		}
-		*/
+
 		update();
 		
 	}
 	
 	private void update() {
 		tx.setToTranslation(x,y);
-		tx.scale(.055, .055);
+		tx.scale(scale, scale);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(.25, .25);
-	}
-	public double getX() {
-		return x;
-	}
-	public double getY() {
-		return y;
-	}
-	public double getSpeedX() {
-		return xSpeed;
-	}
-	public double getSpeedY() {
-		return ySpeed;
+		tx.scale(scale, scale);
 	}
 
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public void setSpeedX(double newXSpeed) {
-		xSpeed = newXSpeed;
-	}
-	public void setpeedY(double newYSpeed) {
-		ySpeed = newYSpeed;
-	}
-	/*
-	public void zombieFloat() {
-		xSpeed =0;
-		while (y>=-100) {
-			y-=5;
-		}
-	}
-	*/
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Goomba.class.getResource(path);
+			URL imageURL = MarioWL.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return tempImage;
-	}
-
-	public void setX(double d) {
-		// TODO Auto-generated method stub
-		x=d;
 	}
 
 }
