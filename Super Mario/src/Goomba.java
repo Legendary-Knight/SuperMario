@@ -11,7 +11,7 @@ public class Goomba{
 	private Image img; 	
 	private AffineTransform tx;
 	private double x =0,y=0;
-	private double xSpeed = 0, ySpeed =0;
+	private double xSpeed = 5, ySpeed =0;
 	public Goomba(double x, double y) {
 		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
 		this.x = x;
@@ -66,6 +66,12 @@ public class Goomba{
 	public double getSpeedY() {
 		return ySpeed;
 	}
+
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	public void setSpeedX(double newXSpeed) {
 		xSpeed = newXSpeed;
 	}
@@ -89,6 +95,11 @@ public class Goomba{
 			e.printStackTrace();
 		}
 		return tempImage;
+	}
+
+	public void setX(double d) {
+		// TODO Auto-generated method stub
+		x=d;
 	}
 
 }

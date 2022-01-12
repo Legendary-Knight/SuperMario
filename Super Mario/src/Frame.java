@@ -29,6 +29,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Crosshair c = new Crosshair ();
 	DeadZombie dz[] = {new DeadZombie(0,0,0,0), new DeadZombie(0,0,0,0)} ;
 	Pipe p1= new Pipe(92,450);
+	Pipe[] pipes = {new Pipe(92,450), new Pipe(1000,450)};
 	StillMario sm = new StillMario(200,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
 	Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
@@ -80,7 +81,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		//b.paint(g);
-		p1.paint(g);
+		//p1.paint(g);
+		for(int a=0; a<pipes.length; a++) {
+			pipes[a].paint(g);
+		}
 		for(int i=0; i<bricks.length;i++) {
 			bricks[i].paint(g);
 		}
@@ -120,20 +124,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		collisionB=false;
 		
 		for(int x=0; x<goombas.length;x++) {
-			collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,p1.getX()+92,p1.getX(),p1.getY(),p1.getY()+250);
-			
+			for(int a=0; a<pipes.length; a++) {
+				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+66,p1.getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, false);
+			}
 			System.out.println(collisionL);
 			System.out.println(collisionR);		
 			for(int i=0; i<bricks.length;i++) {
-				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,bricks[i].getX()+46,bricks[i].getX(),bricks[i].getY(),bricks[i].getY()+46);
+				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,bricks[i].getX()+46,bricks[i].getX(),bricks[i].getY(),bricks[i].getY()+46, false);
 			}
 			for(Background thisG: ground) { 
-				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+46,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46);
+				collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, false);
 			}
 			System.out.println(collisionB);
 		}
-		
-		
+		if((collisionB==false)) {
+			for(int x=0; x<goombas.length; x++) {
+				goombas[x].setY(goombas[x].getY()+10);
+			}
+		}
+		if(collisionL || collisionR) {
+			for(int x=0; x<goombas.length; x++) {
+				goombas[x].setSpeedX(goombas[x].getSpeedX()*-1);
+			}
+		}
 		
 		collisionL=false;
 		collisionR=false;
@@ -141,19 +154,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		collisionB=false;
 		
 		
-		
-		collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,p1.getX()+92,p1.getX(),p1.getY(),p1.getY()+250);
-		
+		for(int a=0; a<pipes.length; a++) {
+			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,pipes[a].getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, true);
+		}
 		System.out.println(collisionL);
 		System.out.println(collisionR);		
 		for(int i=0; i<bricks.length;i++) {
-			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bricks[i].getX()+46,bricks[i].getX(),bricks[i].getY(),bricks[i].getY()+46);
+			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bricks[i].getX()+46,bricks[i].getX(),bricks[i].getY(),bricks[i].getY()+46, true);
 		}
 		for(Background thisG: ground) { 
-			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46);
+			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, true);
 		}
 		System.out.println(collisionB);
-
+		
 		/*
 		if(marioJump<50) {
 			for(Background thisG: ground) {
@@ -187,10 +200,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			for(Background thisG: ground) {
 				thisG.setX((thisG.getX()+MSpeedX));
 			}
+			for(int a=0; a<pipes.length; a++) {
+				pipes[a].setX((pipes[a].getX()+MSpeedX));
+			}
 			for(int i=0; i<bricks.length;i++) {
 				bricks[i].setX(bricks[i].getX()+MSpeedX);
 			}
 			p1.setX(p1.getX()+MSpeedX);
+			for(int i=0; i<goombas.length; i++) {
+				goombas[i].setX(goombas[i].getX()+MSpeedX);
+			}
 		}
 		
 		
@@ -362,10 +381,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		
 	}
-	public void collision(double MarioR, double MarioL, double MarioT, double MarioB, double ObjR,double ObjL, double ObjT, double ObjB) {
+	public void collision(double MarioR, double MarioL, double MarioT, double MarioB, double ObjR,double ObjL, double ObjT, double ObjB, boolean Mario) {
 		System.out.println(MSpeedY);
 		MarioB-=9;
-		if(MarioR>ObjL && MarioL<ObjR) {
+		if(MarioR>ObjL && MarioL<ObjR & Mario) {
 			double distance = ObjT-(MarioB-5);
 			if(Math.abs(MSpeedY) > distance  && MSpeedY<0 && distance>1) {
 				MSpeedY=(int) (Math.abs(distance)*-1);
