@@ -19,7 +19,8 @@ public class Goomba{
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
-									//use your variables
+			
+		//use your variables
 	}
 	
 	public void changePicture(String newFileName) {

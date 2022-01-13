@@ -110,6 +110,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			j++;
 		}
 
+		
 		for(Background thisG: ground) {
 			thisG.paint(g);
 		}
