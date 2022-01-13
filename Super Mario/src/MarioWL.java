@@ -13,9 +13,10 @@ public class MarioWL{
 	private int x =0,y=0;
 	private double scale =.045;
 	public int getX() {
-		return x;
+		return x; 
 	}
 
+	
 	public void setX(int x) {
 		this.x = x;
 	}

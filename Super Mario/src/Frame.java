@@ -114,11 +114,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			thisG.paint(g);
 		}
 		if(Math.abs(MSpeedX)>0) {
-			MWL.paint(g);
+			MWL.paint(g);  
 		}
 		else {
 			sm.paint(g);
 		}
+		
 		/*
 		System.out.println("z1 " + health[0]+ "   ");
 		System.out.println(zombieKilled[0]+ "   ");

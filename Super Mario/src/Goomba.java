@@ -14,7 +14,7 @@ public class Goomba{
 	private double xSpeed = 5, ySpeed =0;
 	public Goomba(double x, double y) {
 		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
-		this.x = x;
+		this.x = x; 
 		this.y= y;
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
@@ -26,6 +26,7 @@ public class Goomba{
 		img = getImage(newFileName);
 		update();
 	}
+	
 	
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen

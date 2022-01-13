@@ -13,7 +13,7 @@ public class StillMario{
 	private int x =0,y=0;
 	private double scale =.22;
 	public int getX() {
-		return x;
+		return x; 
 	}
 
 	public void setX(int x) {
