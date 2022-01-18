@@ -104,8 +104,4 @@ public class Goomba{
 		x=d;
 	}
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> branch 'master' of https://github.com/Legendary-Knight/Mario.git
