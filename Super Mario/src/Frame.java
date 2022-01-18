@@ -155,7 +155,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				sm.paint(g);
 			}
 		}
-		*/
+		*/ 
 		
 		/*
 		System.out.println("z1 " + health[0]+ "   ");
