@@ -107,9 +107,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(j==0) {
 			for(int y=0; y<3; y++) {
 				for(int x=0; x<28; x++) {
-				ground.add(new Background(x*46,580+y*46));
+					ground.add(new Background(x*46,580+y*46));
+				}
+				for(int x=32; x<60; x++) {
+					ground.add(new Background(x*46,580+y*46));
 				}
 			}
+			
+			for(int y=-20; y<2; y++) {
+				for(int x=-10; x<0; x++) {
+					ground.add(new Background(x*46,580+y*46));
+				}
+			}
+			
 			j++;
 		}
 
@@ -134,8 +144,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		MJR.setY(sm.getY());
 		 
 		
-		sm.paint(g);
-		/*
+		//sm.paint(g);
+		
 		if(MSpeedY!=0 || !collisionB) {
 			if((MSpeedX)>0 || lastD>0) {
 				MJL.paint(g);  
@@ -155,7 +165,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				sm.paint(g);
 			}
 		}
-		*/  
+		
 		
 		/*
 		System.out.println("z1 " + health[0]+ "   ");
