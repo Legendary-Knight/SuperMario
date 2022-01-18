@@ -32,6 +32,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	Pipe[] pipes = {new Pipe(92,450), new Pipe(1000,450)};
 	MarioWL MWL = new MarioWL(200,500);
+	MarioWR MWR = new MarioWR(200,500);
+	MarioJL MJL = new MarioJL(200,500);
+	MarioJR MJR = new MarioJR(200,500);
 	StillMario sm = new StillMario(200,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
 	Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
@@ -39,6 +42,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	
 	int countA=0;
+	int lastD=-1;
 	int time=100;
 	int MSpeedX=0;
 	int MSpeedY=6;
@@ -86,8 +90,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
-		MWL.setX(sm.getX());
-		MWL.setY(sm.getY());
+
 		
 		
 		//b.paint(g);
@@ -110,16 +113,49 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			j++;
 		}
 
-		
 		for(Background thisG: ground) {
 			thisG.paint(g);
 		}
-		if(Math.abs(MSpeedX)>0) {
-			MWL.paint(g);  
+		
+		
+		
+		if(MSpeedX!=0) {
+			lastD= MSpeedX;
+		}
+		
+		MWL.setX(sm.getX());
+		MWL.setY(sm.getY());
+		MWR.setX(sm.getX());
+		MWR.setY(sm.getY());
+		
+		MJL.setX(sm.getX());
+		MJL.setY(sm.getY());
+		MJR.setX(sm.getX());
+		MJR.setY(sm.getY());
+		
+		
+		sm.paint(g);
+		/*
+		if(MSpeedY!=0 || !collisionB) {
+			if((MSpeedX)>0 || lastD>0) {
+				MJL.paint(g);  
+			}
+			else if(MSpeedX<=0 || lastD<0) {
+				MJR.paint(g);
+			}
 		}
 		else {
-			sm.paint(g);
+			if((MSpeedX)>0) {
+				MWL.paint(g);  
+			}
+			else if(MSpeedX<0) {
+				MWR.paint(g);
+			}
+			else {
+				sm.paint(g);
+			}
 		}
+		*/
 		
 		/*
 		System.out.println("z1 " + health[0]+ "   ");
@@ -147,7 +183,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			if(!collisionT&&!collisionR && !collisionL &&collisionB) {
 				goombas[x].setX(-100);
-				goombas[x].setY(-100);
+				goombas[x].setY(1000);
 				collisionT=false;
 				MSpeedY=10;
 
