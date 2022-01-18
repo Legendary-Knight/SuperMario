@@ -132,7 +132,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		MJL.setY(sm.getY());
 		MJR.setX(sm.getX());
 		MJR.setY(sm.getY());
-		
+		 
 		
 		sm.paint(g);
 		/*
