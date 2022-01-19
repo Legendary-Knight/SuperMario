@@ -179,7 +179,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				MJR.paint(g);
 			}
 		}
-		else {
+		else { 
 			if((MSpeedX)>0) {
 				MWL.paint(g);  
 			}
