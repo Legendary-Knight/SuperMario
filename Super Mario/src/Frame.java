@@ -37,7 +37,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	MarioJR MJR = new MarioJR(200,500);
 	StillMario sm = new StillMario(200,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
-	Goomba[] goombas = {new Goomba(-100,1000)};
+	ArrayList<Sky> sky = new ArrayList<Sky>();
+	Goomba[] goombas = {new Goomba(500,500)};
 	
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
@@ -92,28 +93,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
-
-		
-		
-		//b.paint(g);
-		//p1.paint(g);
-		for(int a=0; a<pipes.length; a++) {
-			pipes[a].paint(g);
-		}
-		
-		/*
-		for(int i=0; i<bricks.length;i++) {
-			bricks[i].paint(g);
-		}
-		*/
-
-		
-
-		
-		for(int i=0; i<goombas.length;i++) {
-			goombas[i].paint(g);
-		}
 		if(j==0) {
 			for(int x=400; x<=400+46; x+=46) {
 				bricks.add(new Brick(x,350));
@@ -140,11 +119,42 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					ground.add(new Background(x*46,580+y*46));
 				}
 			}
+			for(int y=0; y<2; y++) {
+				for(int x=-1; x<10; x++) {
+					sky.add(new Sky(x*900,y*525));
+				}
+			}
 			
 			j++;
 		}
 		
+		for(int i=sky.size()-1; i>=0; i--) {
+			sky.get(i).paint(g);
+		}
+
 		
+		
+		//b.paint(g);
+		//p1.paint(g);
+		for(int a=0; a<pipes.length; a++) {
+			pipes[a].paint(g);
+		}
+		
+		/*
+		for(int i=0; i<bricks.length;i++) {
+			bricks[i].paint(g);
+		}
+		*/
+
+		
+
+		
+		for(int i=0; i<goombas.length;i++) {
+			goombas[i].paint(g);
+		}
+
+		
+
 		for(Brick thisG: bricks) {
 			thisG.paint(g);
 		}
@@ -345,6 +355,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				for(int i=0; i<goombas.length; i++) {
 					goombas[i].setX(goombas[i].getX()+MSpeedX);
 				}
+				for(int i=sky.size()-1; i>=0; i--) {
+					sky.get(i).setX(sky.get(i).getX()+MSpeedX);
+				}
 			}
 			
 			
@@ -381,6 +394,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		ARS.play();
 		pvz.play();
 		*/
+		Music MJ = new Music("MJump.wav",false);
+		Music M = new Music("Super Mario Bros. Theme Song.wav",true);
+		M.play();
+		
 		Frame f = new Frame();
 
 	}
@@ -494,6 +511,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(arg0.getKeyCode() == 38 && collisionB==true) {
 			marioJump=0;
 			MSpeedY=22;
+			Music MJ = new Music("MJump.wav",false);
+			MJ.play();
 			/*
 			for(Background thisG: ground) {
 				thisG.setY((thisG.getY()+MSpeedY));
