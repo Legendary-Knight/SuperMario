@@ -10,22 +10,23 @@ import java.net.URL;
 public class StillMario{
 	private Image img; 	
 	private AffineTransform tx;
-	private int x =0,y=0;
+	private double x =0,y=0;
 	private double scale =.22;
-	public int getX() {
+	
+	public double getX() {
 		return x; 
 	}
 	
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 

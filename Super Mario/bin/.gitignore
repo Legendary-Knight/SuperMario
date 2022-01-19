@@ -1,4 +1,3 @@
-/imgs/
 /AllowanceTracker.class
 /Background.class
 /Barrel.class
@@ -12,6 +11,10 @@
 /Goomba.class
 /GraphicsCard.class
 /LawnMower.class
+/MarioJL.class
+/MarioJR.class
+/MarioWL.class
+/MarioWR.class
 /Music.class
 /Peashooter.class
 /Pipe.class
@@ -19,8 +22,4 @@
 /StillMario.class
 /ZombieBrains.class
 /Zomboss.class
-/MarioWL.class
-/MarioWR.class
-/Snippet.class
-/MarioJR.class
-/MarioJL.class
+/imgs/
