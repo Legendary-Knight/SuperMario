@@ -38,7 +38,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	StillMario sm = new StillMario(200,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
-	Goomba[] goombas = {new Goomba(500,500)};
+	Goomba[] goombas = {new Goomba(500,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
 	
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
@@ -100,6 +100,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			for(int x=538; x<=538+46; x+=46) {
 				bricks.add(new Brick(x,350));
 			}
+			for(int x=88; x<92; x++) {
+				bricks.add(new Brick(x*46,350));
+			}
+			for(int x=94; x<110; x++) {
+				bricks.add(new Brick(x*46,100));
+			}
+			for(int x=112; x<116; x++) {
+				bricks.add(new Brick(x*46,350));
+			}
 			
 			
 			for(int y=0; y<3; y++) {
@@ -110,6 +119,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					ground.add(new Background(x*46,580+y*46));
 				}
 				for(int x=64; x<92; x++) {
+					ground.add(new Background(x*46,580+y*46));
+				}
+				for(int x=112; x<200; x++) {
 					ground.add(new Background(x*46,580+y*46));
 				}
 			}
@@ -127,6 +139,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			j++;
 		}
+		
+		
 		
 		for(int i=sky.size()-1; i>=0; i--) {
 			sky.get(i).paint(g);
@@ -151,6 +165,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		for(int i=0; i<goombas.length;i++) {
 			goombas[i].paint(g);
+			
+			if(goombas[i].getX()<-200 || goombas[i].getX()>1200) {
+				goombas[i].setSpeedX(0);
+			}
+			else {
+				if(goombas[i].getSpeedX()==0) {
+					goombas[i].setSpeedX(goombas[i].getGoombaL());
+				}
+			}
+			
+			
 		}
 
 		
@@ -161,6 +186,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		for(Background thisG: ground) {
 			thisG.paint(g);
 		}
+		
 		
 		
 		
@@ -229,9 +255,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if(!collisionT&&!collisionR && !collisionL &&collisionB) {
 				goombas[x].setX(-100);
 				goombas[x].setY(1000);
-				collisionT=false;
+				collisionB=false;
 				MSpeedY=10;
-
+			
 			}
 		}
 		if(sm.getY()>=700) {
@@ -241,13 +267,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if((collisionR || collisionL || collisionT &&!collisionB)||MarioDead) {
 			if(countA<1) {
 				MSpeedY=20;
+				Music MD = new Music("MDeathBoost.wav",false);
+				MD.play();
 			}
 			countA++;
 			MarioDead=true;
 				
 			MSpeedY-=1;
 			sm.setY(sm.getY()-MSpeedY);
-			
+
 			/*
 			for(int i=0; i<4000; i++) {
 				if(i%50==0) {
@@ -277,19 +305,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				for(Background thisG: ground) { 
 					collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, false);
+
 				}
-				//System.out.println(collisionB);
-			}
-			if((collisionB==false)) {
-				for(int x=0; x<goombas.length; x++) {
+				if((collisionB==false)) {
 					goombas[x].setY(goombas[x].getY()+10);
+					//collisionB=false;
 				}
-			}
-			if(collisionL || collisionR) {
-				for(int x=0; x<goombas.length; x++) {
+				if(collisionL || collisionR) {
 					goombas[x].setSpeedX(goombas[x].getSpeedX()*-1);
+					collisionL=false;
+					collisionR=false;
 				}
+				//collisionB=false;
 			}
+				//collisionB=false;
+				//System.out.println(collisionB);
+		}
+
+
 			
 			collisionL=false;
 			collisionR=false;
@@ -383,7 +416,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			else {
 				MSpeedY=0;
 			}
-		}
+		
 
 	}
 	
