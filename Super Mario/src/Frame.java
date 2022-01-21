@@ -39,7 +39,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
 	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
-	
+	Bowser bowser = new Bowser(130*46, 325);
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
 	
@@ -93,6 +93,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
 		if(j==0) {
 			for(int x=400; x<=400+46; x+=46) {
 				bricks.add(new Brick(x,350));
@@ -160,7 +161,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		*/
 
-		
+		bowser.paint(g);
 
 		
 		for(int i=0; i<goombas.length;i++) {
@@ -395,6 +396,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				for(int i=sky.size()-1; i>=0; i--) {
 					sky.get(i).setX(sky.get(i).getX()+MSpeedX);
 				}
+				bowser.setX(bowser.getX()+MSpeedX);
 			}
 			
 			

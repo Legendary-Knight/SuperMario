@@ -10,7 +10,7 @@ import java.net.URL;
 public class Bowser{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
+	private double x =0,y=0,scale=1;
 	private double xSpeed = 0, ySpeed =0, BowserL=1;
 	public Bowser(double x, double y) {
 		img = getImage("/imgs/Bowser.png"); //load the image for Tree
@@ -49,12 +49,12 @@ public class Bowser{
 	
 	private void update() {
 		tx.setToTranslation(x,y);
-		tx.scale(.055, .055);
+		tx.scale(scale, scale);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(.25, .25);
+		tx.scale(scale, scale);
 	}
 	public double getX() {
 		return x;
