@@ -165,7 +165,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		for(int i=0; i<goombas.length;i++) {
 			goombas[i].paint(g);
-			
+			/*
 			if(goombas[i].getX()<-200 || goombas[i].getX()>1200) {
 				goombas[i].setSpeedX(0);
 			}
@@ -174,7 +174,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					goombas[i].setSpeedX(goombas[i].getGoombaL());
 				}
 			}
-			
+			*/
 			
 		}
 
@@ -316,7 +316,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					collisionL=false;
 					collisionR=false;
 				}
-				//collisionB=false;
+				collisionB=false;
 			}
 				//collisionB=false;
 				//System.out.println(collisionB);
