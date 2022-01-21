@@ -7,13 +7,13 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Goomba{
+public class Bowser{
 	private Image img; 	
 	private AffineTransform tx;
 	private double x =0,y=0;
-	private double xSpeed = 5, ySpeed =0, goombaL=1;
-	public Goomba(double x, double y) {
-		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
+	private double xSpeed = 0, ySpeed =0, BowserL=1;
+	public Bowser(double x, double y) {
+		img = getImage("/imgs/Bowser.png"); //load the image for Tree
 		this.x = x; 
 		this.y= y;
 
@@ -73,13 +73,13 @@ public class Goomba{
 	public void setY(double y) {
 		this.y = y;
 	}
-	public double getGoombaL() {
-		return goombaL;
+	public double getBowserL() {
+		return BowserL;
 	}
 	public void setSpeedX(double newXSpeed) {
 		
 		if(newXSpeed!=0) {
-			goombaL=xSpeed/(Math.abs(xSpeed));
+			BowserL=xSpeed/(Math.abs(xSpeed));
 		}
 		
 		xSpeed = newXSpeed;
@@ -98,7 +98,7 @@ public class Goomba{
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Goomba.class.getResource(path);
+			URL imageURL = Bowser.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

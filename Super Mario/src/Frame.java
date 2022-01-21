@@ -35,10 +35,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	MarioWR MWR = new MarioWR(200,500);
 	MarioJL MJL = new MarioJL(200,500);
 	MarioJR MJR = new MarioJR(200,500);
-	StillMario sm = new StillMario(200,500);
+	StillMario sm = new StillMario(500,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
-	Goomba[] goombas = {new Goomba(500,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
+	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
 	
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
@@ -165,16 +165,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		for(int i=0; i<goombas.length;i++) {
 			goombas[i].paint(g);
-			/*
-			if(goombas[i].getX()<-200 || goombas[i].getX()>1200) {
+			
+			if(goombas[i].getX()<-500 || goombas[i].getX()>1500) {
 				goombas[i].setSpeedX(0);
 			}
 			else {
 				if(goombas[i].getSpeedX()==0) {
-					goombas[i].setSpeedX(goombas[i].getGoombaL());
+					goombas[i].setSpeedX(goombas[i].getGoombaL()*5);
 				}
 			}
-			*/
+			
 			
 		}
 
@@ -270,11 +270,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				Music MD = new Music("MDeathBoost.wav",false);
 				MD.play();
 			}
+			for(int i=0; i<goombas.length;i++) {
+				goombas[i].setSpeedX(0);
+			}
 			countA++;
 			MarioDead=true;
 				
-			MSpeedY-=1;
+			MSpeedY-=2;
 			sm.setY(sm.getY()-MSpeedY);
+			MSpeedX=0;
 
 			/*
 			for(int i=0; i<4000; i++) {
@@ -541,7 +545,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			*/
 		}
-		if(arg0.getKeyCode() == 38 && collisionB==true) {
+		if(arg0.getKeyCode() == 38 && collisionB==true && !MarioDead) {
 			marioJump=0;
 			MSpeedY=22;
 			Music MJ = new Music("MJump.wav",false);
