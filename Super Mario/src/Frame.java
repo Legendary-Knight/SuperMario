@@ -30,7 +30,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	DeadZombie dz[] = {new DeadZombie(0,0,0,0), new DeadZombie(0,0,0,0)} ;
 	Pipe p1= new Pipe(92,450);
 	
-	Pipe[] pipes = {new Pipe(92,450), new Pipe(1000,450)};
+	Pipe[] pipes = {new Pipe(92,450), new Pipe(1000,450),new Pipe(5600,450), };
 	MarioWL MWL = new MarioWL(200,500);
 	MarioWR MWR = new MarioWR(200,500);
 	MarioJL MJL = new MarioJL(200,500);
@@ -39,7 +39,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
 	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
-	Bowser bowser = new Bowser(130*46, 325);
+	Bowser bowser = new Bowser(130*46, 125);
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
 	
@@ -51,6 +51,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	double MSpeedX=0;
 	double MSpeedY=6;
 	int marioJump=100;
+	boolean world2= false;
 	boolean collisionL=false;
 	boolean collisionR=false;
 	boolean collisionB=false;
@@ -93,336 +94,336 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
-		if(j==0) {
-			for(int x=400; x<=400+46; x+=46) {
-				bricks.add(new Brick(x,350));
-			}
-			for(int x=538; x<=538+46; x+=46) {
-				bricks.add(new Brick(x,350));
-			}
-			for(int x=88; x<92; x++) {
-				bricks.add(new Brick(x*46,350));
-			}
-			for(int x=94; x<110; x++) {
-				bricks.add(new Brick(x*46,100));
-			}
-			for(int x=112; x<116; x++) {
-				bricks.add(new Brick(x*46,350));
-			}
-			
-			
-			for(int y=0; y<3; y++) {
-				for(int x=0; x<28; x++) {
-					ground.add(new Background(x*46,580+y*46));
+		if(!world2) {
+			if(j==0) {
+				for(int x=400; x<=400+46; x+=46) {
+					bricks.add(new Brick(x,350));
 				}
-				for(int x=32; x<60; x++) {
-					ground.add(new Background(x*46,580+y*46));
+				for(int x=538; x<=538+46; x+=46) {
+					bricks.add(new Brick(x,350));
 				}
-				for(int x=64; x<92; x++) {
-					ground.add(new Background(x*46,580+y*46));
+				for(int x=88; x<92; x++) {
+					bricks.add(new Brick(x*46,350));
 				}
-				for(int x=112; x<200; x++) {
-					ground.add(new Background(x*46,580+y*46));
+				for(int x=94; x<110; x++) {
+					bricks.add(new Brick(x*46,100));
 				}
-			}
-			
-			for(int y=-20; y<2; y++) {
-				for(int x=-10; x<0; x++) {
-					ground.add(new Background(x*46,580+y*46));
+				for(int x=112; x<116; x++) {
+					bricks.add(new Brick(x*46,350));
 				}
-			}
-			for(int y=0; y<2; y++) {
-				for(int x=-1; x<10; x++) {
-					sky.add(new Sky(x*900,y*525));
-				}
-			}
-			
-			j++;
-		}
-		
-		
-		
-		for(int i=sky.size()-1; i>=0; i--) {
-			sky.get(i).paint(g);
-		}
-
-		
-		
-		//b.paint(g);
-		//p1.paint(g);
-		for(int a=0; a<pipes.length; a++) {
-			pipes[a].paint(g);
-		}
-		
-		/*
-		for(int i=0; i<bricks.length;i++) {
-			bricks[i].paint(g);
-		}
-		*/
-
-		bowser.paint(g);
-
-		
-		for(int i=0; i<goombas.length;i++) {
-			goombas[i].paint(g);
-			
-			if(goombas[i].getX()<-500 || goombas[i].getX()>1500) {
-				goombas[i].setSpeedX(0);
-			}
-			else {
-				if(goombas[i].getSpeedX()==0) {
-					goombas[i].setSpeedX(goombas[i].getGoombaL()*5);
-				}
-			}
-			
-			
-		}
-
-		
-
-		for(Brick thisG: bricks) {
-			thisG.paint(g);
-		}
-		for(Background thisG: ground) {
-			thisG.paint(g);
-		}
-		
-		
-		
-		
-		if(MSpeedX!=0) {
-			lastD= MSpeedX;
-		}
-		
-		MWL.setX(sm.getX());
-		MWL.setY(sm.getY());
-		MWR.setX(sm.getX());
-		MWR.setY(sm.getY());
-		
-		MJL.setX(sm.getX());
-		MJL.setY(sm.getY());
-		MJR.setX(sm.getX());
-		MJR.setY(sm.getY());
-		 
-		
-		//sm.paint(g);
-		
-		if( !collisionB) {
-			if((MSpeedX)>0 || lastD>0) {
-				MJL.paint(g);  
-			}
-			else if(MSpeedX<=0 || lastD<0) {
-				MJR.paint(g);
-			}
-		}
-		else { 
-			if((MSpeedX)>0) {
-				MWL.paint(g);  
-			}
-			else if(MSpeedX<0) {
-				MWR.paint(g);
-			} 
-			else if(collisionB){
-				sm.paint(g);
-			}
-		}
-		
-		
-		/*
-		System.out.println("z1 " + health[0]+ "   ");
-		System.out.println(zombieKilled[0]+ "   ");
-		System.out.println("z2 " +health[1]+ "   ");
-		System.out.println(zombieKilled[1]+ "   ");
-		*/
-		
-		/*
-		for(Background thisG: ground) {
-			if(thisG.getX()+46>sm.getX()) {
-				collisionL =true;
-			}
-		}
-		*/
-		collisionL=false;
-		collisionR=false;
-		collisionT=false;
-		collisionB=false;
-		
-		for(int x=0; x<goombas.length;x++) {
-			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY()-10,goombas[x].getY()+46, true);
-			
-			//System.out.println(collisionB);
-			
-			if(!collisionT&&!collisionR && !collisionL &&collisionB) {
-				goombas[x].setX(-100);
-				goombas[x].setY(1000);
-				collisionB=false;
-				MSpeedY=10;
-			
-			}
-		}
-		if(sm.getY()>=700) {
-			MarioDead=true;
-		}
-
-		if((collisionR || collisionL || collisionT &&!collisionB)||MarioDead) {
-			if(countA<1) {
-				MSpeedY=20;
-				Music MD = new Music("MDeathBoost.wav",false);
-				MD.play();
-			}
-			for(int i=0; i<goombas.length;i++) {
-				goombas[i].setSpeedX(0);
-			}
-			countA++;
-			MarioDead=true;
 				
-			MSpeedY-=2;
-			sm.setY(sm.getY()-MSpeedY);
-			MSpeedX=0;
-
-			/*
-			for(int i=0; i<4000; i++) {
-				if(i%50==0) {
-					sm.setY(sm.getY()-MSpeedY);
-					if(MSpeedY>-20) {
-						MSpeedY-=1;
+				
+				for(int y=0; y<3; y++) {
+					for(int x=0; x<28; x++) {
+						ground.add(new Background(x*46,580+y*46));
 					}
+					for(int x=32; x<60; x++) {
+						ground.add(new Background(x*46,580+y*46));
+					}
+					for(int x=64; x<92; x++) {
+						ground.add(new Background(x*46,580+y*46));
+					}
+					for(int x=112; x<200; x++) {
+						ground.add(new Background(x*46,580+y*46));
+					}
+				}
+				
+				for(int y=-20; y<2; y++) {
+					for(int x=-10; x<0; x++) {
+						ground.add(new Background(x*46,580+y*46));
+					}
+				}
+				for(int y=0; y<2; y++) {
+					for(int x=-1; x<10; x++) {
+						sky.add(new Sky(x*900,y*525));
+					}
+				}
+				
+				j++;
+			}
+			
+			
+			
+			for(int i=sky.size()-1; i>=0; i--) {
+				sky.get(i).paint(g);
+			}
+	
+			
+			
+			//b.paint(g);
+			//p1.paint(g);
+			for(int a=0; a<pipes.length; a++) {
+				pipes[a].paint(g);
+			}
+			
+			/*
+			for(int i=0; i<bricks.length;i++) {
+				bricks[i].paint(g);
+			}
+			*/
+	
+			bowser.paint(g);
+	
+			
+			for(int i=0; i<goombas.length;i++) {
+				goombas[i].paint(g);
+				
+				if(goombas[i].getX()<-500 || goombas[i].getX()>1500) {
+					goombas[i].setSpeedX(0);
+				}
+				else {
+					if(goombas[i].getSpeedX()==0) {
+						goombas[i].setSpeedX(goombas[i].getGoombaL()*5);
+					}
+				}
+				
+				
+			}
+	
+			
+	
+			for(Brick thisG: bricks) {
+				thisG.paint(g);
+			}
+			for(Background thisG: ground) {
+				thisG.paint(g);
+			}
+			
+			
+			
+			
+			if(MSpeedX!=0) {
+				lastD= MSpeedX;
+			}
+			
+			MWL.setX(sm.getX());
+			MWL.setY(sm.getY());
+			MWR.setX(sm.getX());
+			MWR.setY(sm.getY());
+			
+			MJL.setX(sm.getX());
+			MJL.setY(sm.getY());
+			MJR.setX(sm.getX());
+			MJR.setY(sm.getY());
+			 
+			
+			//sm.paint(g);
+			
+			if( !collisionB) {
+				if((MSpeedX)>0 || lastD>0) {
+					MJL.paint(g);  
+				}
+				else if(MSpeedX<=0 || lastD<0) {
+					MJR.paint(g);
+				}
+			}
+			else { 
+				if((MSpeedX)>0) {
+					MWL.paint(g);  
+				}
+				else if(MSpeedX<0) {
+					MWR.paint(g);
+				} 
+				else if(collisionB){
+					sm.paint(g);
+				}
+			}
+			
+			
+			/*
+			System.out.println("z1 " + health[0]+ "   ");
+			System.out.println(zombieKilled[0]+ "   ");
+			System.out.println("z2 " +health[1]+ "   ");
+			System.out.println(zombieKilled[1]+ "   ");
+			*/
+			
+			/*
+			for(Background thisG: ground) {
+				if(thisG.getX()+46>sm.getX()) {
+					collisionL =true;
 				}
 			}
 			*/
-			
-		}
-		else {
 			collisionL=false;
 			collisionR=false;
 			collisionT=false;
 			collisionB=false;
 			
 			for(int x=0; x<goombas.length;x++) {
+				collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY()-10,goombas[x].getY()+46, true);
+				
+				//System.out.println(collisionB);
+				
+				if(!collisionT&&!collisionR && !collisionL &&collisionB) {
+					goombas[x].setX(-100);
+					goombas[x].setY(1000);
+					collisionB=false;
+					MSpeedY=10;
+				
+				}
+			}
+			if(sm.getY()>=700) {
+				MarioDead=true;
+			}
+	
+			if((collisionR || collisionL || collisionT &&!collisionB)||MarioDead) {
+				if(countA<1) {
+					MSpeedY=20;
+					Music MD = new Music("MDeathBoost.wav",false);
+					MD.play();
+				}
+				for(int i=0; i<goombas.length;i++) {
+					goombas[i].setSpeedX(0);
+				}
+				countA++;
+				MarioDead=true;
+					
+				MSpeedY-=2;
+				sm.setY(sm.getY()-MSpeedY);
+				MSpeedX=0;
+	
+				/*
+				for(int i=0; i<4000; i++) {
+					if(i%50==0) {
+						sm.setY(sm.getY()-MSpeedY);
+						if(MSpeedY>-20) {
+							MSpeedY-=1;
+						}
+					}
+				}
+				*/
+				
+			}
+			else {
+				collisionL=false;
+				collisionR=false;
+				collisionT=false;
+				collisionB=false;
+				
+				for(int x=0; x<goombas.length;x++) {
+					for(int a=0; a<pipes.length; a++) {
+						collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+66,p1.getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, false);
+					}
+					//System.out.println(collisionL);
+					//System.out.println(collisionR);		
+					for(int i=0; i<bricks.size();i++) {
+						collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,bricks.get(i).getX()+46,bricks.get(i).getX(),bricks.get(i).getY(),bricks.get(i).getY()+46, false);
+					}
+					for(Background thisG: ground) { 
+						collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, false);
+	
+					}
+					if((collisionB==false)) {
+						goombas[x].setY(goombas[x].getY()+10);
+						//collisionB=false;
+					}
+					if(collisionL || collisionR) {
+						goombas[x].setSpeedX(goombas[x].getSpeedX()*-1);
+						collisionL=false;
+						collisionR=false;
+					}
+					collisionB=false;
+				}
+					//collisionB=false;
+					//System.out.println(collisionB);
+			}
+	
+	
+				
+				collisionL=false;
+				collisionR=false;
+				collisionT=false;
+				collisionB=false;
+				
+				
 				for(int a=0; a<pipes.length; a++) {
-					collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+66,p1.getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, false);
+					collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,pipes[a].getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, true);
 				}
 				//System.out.println(collisionL);
 				//System.out.println(collisionR);		
 				for(int i=0; i<bricks.size();i++) {
-					collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,bricks.get(i).getX()+46,bricks.get(i).getX(),bricks.get(i).getY(),bricks.get(i).getY()+46, false);
+					collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bricks.get(i).getX()+46,bricks.get(i).getX(),bricks.get(i).getY(),bricks.get(i).getY()+46, true);
 				}
 				for(Background thisG: ground) { 
-					collision(goombas[x].getX()+46,goombas[x].getX(),goombas[x].getY(),goombas[x].getY()+60,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, false);
-
+					collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, true);
 				}
-				if((collisionB==false)) {
-					goombas[x].setY(goombas[x].getY()+10);
-					//collisionB=false;
-				}
-				if(collisionL || collisionR) {
-					goombas[x].setSpeedX(goombas[x].getSpeedX()*-1);
-					collisionL=false;
-					collisionR=false;
-				}
-				collisionB=false;
-			}
-				//collisionB=false;
 				//System.out.println(collisionB);
-		}
-
-
-			
-			collisionL=false;
-			collisionR=false;
-			collisionT=false;
-			collisionB=false;
-			
-			
-			for(int a=0; a<pipes.length; a++) {
-				collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,pipes[a].getX()+92,pipes[a].getX(),pipes[a].getY(),pipes[a].getY()+250, true);
-			}
-			//System.out.println(collisionL);
-			//System.out.println(collisionR);		
-			for(int i=0; i<bricks.size();i++) {
-				collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bricks.get(i).getX()+46,bricks.get(i).getX(),bricks.get(i).getY(),bricks.get(i).getY()+46, true);
-			}
-			for(Background thisG: ground) { 
-				collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,thisG.getX()+46,thisG.getX(),thisG.getY(),thisG.getY()+46, true);
-			}
-			//System.out.println(collisionB);
-			
-			/*
-			if(marioJump<50) {
-				for(Background thisG: ground) {
-					thisG.setY((thisG.getY()+MSpeedY));
+				
+				/*
+				if(marioJump<50) {
+					for(Background thisG: ground) {
+						thisG.setY((thisG.getY()+MSpeedY));
+					}
+					p1.setY(p1.getY()+MSpeedY);
+					marioJump++;
 				}
-				p1.setY(p1.getY()+MSpeedY);
-				marioJump++;
-			}
-			else if(collisionB==false && stop==false) {
-				for(Background thisG: ground) {
-					thisG.setY((thisG.getY()-5));
-				}
-				p1.setY(p1.getY()-5);
-			}
-			else {
-				MSpeedY=0;
-			}
-			*/
-			/*
-			if(time<=10) {
-				time++;
-			}
-			else {
-				if(MSpeedX>=2) {
-					MSpeedX-=2;
+				else if(collisionB==false && stop==false) {
+					for(Background thisG: ground) {
+						thisG.setY((thisG.getY()-5));
+					}
+					p1.setY(p1.getY()-5);
 				}
 				else {
-					MSpeedX=0;
+					MSpeedY=0;
 				}
-			}
-			*/
-			if( (collisionL==false && MSpeedX>0) || (collisionR==false && MSpeedX<0)) {
-				for(Background thisG: ground) {
-					thisG.setX((thisG.getX()+MSpeedX));
-				}
-				for(int a=0; a<pipes.length; a++) {
-					pipes[a].setX((pipes[a].getX()+MSpeedX));
-				}
-				for(int i=0; i<bricks.size();i++) {
-					bricks.get(i).setX(bricks.get(i).getX()+MSpeedX);
-				}
-				p1.setX(p1.getX()+MSpeedX);
-				for(int i=0; i<goombas.length; i++) {
-					goombas[i].setX(goombas[i].getX()+MSpeedX);
-				}
-				for(int i=sky.size()-1; i>=0; i--) {
-					sky.get(i).setX(sky.get(i).getX()+MSpeedX);
-				}
-				bowser.setX(bowser.getX()+MSpeedX);
-			}
-			
-			
-			if((collisionB==false) || (marioJump<1)) {
-				/*
-				for(Background thisG: ground) {
-					thisG.setY((thisG.getY()+MSpeedY));
-				}
-				for(int i=0; i<bricks.length;i++) {
-					bricks[i].setY(bricks[i].getY()+MSpeedY);
-				}
-				p1.setY(p1.getY()+MSpeedY);
-				MSpeedY-=1;
-				marioJump++;
 				*/
-				sm.setY(sm.getY()-MSpeedY);
-				MSpeedY-=.8;
-				marioJump++;
+				/*
+				if(time<=10) {
+					time++;
+				}
+				else {
+					if(MSpeedX>=2) {
+						MSpeedX-=2;
+					}
+					else {
+						MSpeedX=0;
+					}
+				}
+				*/
+				if( (collisionL==false && MSpeedX>0) || (collisionR==false && MSpeedX<0)) {
+					for(Background thisG: ground) {
+						thisG.setX((thisG.getX()+MSpeedX));
+					}
+					for(int a=0; a<pipes.length; a++) {
+						pipes[a].setX((pipes[a].getX()+MSpeedX));
+					}
+					for(int i=0; i<bricks.size();i++) {
+						bricks.get(i).setX(bricks.get(i).getX()+MSpeedX);
+					}
+					p1.setX(p1.getX()+MSpeedX);
+					for(int i=0; i<goombas.length; i++) {
+						goombas[i].setX(goombas[i].getX()+MSpeedX);
+					}
+					for(int i=sky.size()-1; i>=0; i--) {
+						sky.get(i).setX(sky.get(i).getX()+MSpeedX);
+					}
+					bowser.setX(bowser.getX()+MSpeedX);
+				}
 				
-	
 				
-			}
-			else {
-				MSpeedY=0;
-			}
+				if((collisionB==false) || (marioJump<1)) {
+					/*
+					for(Background thisG: ground) {
+						thisG.setY((thisG.getY()+MSpeedY));
+					}
+					for(int i=0; i<bricks.length;i++) {
+						bricks[i].setY(bricks[i].getY()+MSpeedY);
+					}
+					p1.setY(p1.getY()+MSpeedY);
+					MSpeedY-=1;
+					marioJump++;
+					*/
+					sm.setY(sm.getY()-MSpeedY);
+					MSpeedY-=.8;
+					marioJump++;
+					
 		
+					
+				}
+				else {
+					MSpeedY=0;
+				}
+		}
 
 	}
 	
@@ -561,6 +562,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			//stop=true;
 		}
+		
+		if(arg0.getKeyCode() == 40) {
+			if(collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,pipes[2].getX()+92,pipes[2].getX(),pipes[2].getY(),pipes[2].getY()+250, true,true)) {
+				world2=true;
+			}
+		}
 	}
 	
 
@@ -580,6 +587,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void collision(double MarioR, double MarioL, double MarioT, double MarioB, double ObjR,double ObjL, double ObjT, double ObjB, boolean Mario) {
 		//System.out.println(MSpeedY);
+		boolean col = false;
 		MarioB-=9;
 		if(MarioR>ObjL && MarioL<ObjR & Mario) {
 			double distance = ObjT-(MarioB-5);
@@ -591,19 +599,42 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 		if(ObjR>MarioL && MarioB-5>ObjT && MarioT<ObjB && ObjR<MarioR) {
 			collisionL =true;
+			col =true;
 		}
 		if(ObjL<MarioR && MarioB-5>ObjT && MarioT<ObjB && ObjL>MarioL) {
 			collisionR =true;
+			col =true;
 		}
 		if(ObjT<MarioB && MarioR>ObjL && MarioL<ObjR && ObjB>MarioB) {
 			collisionB = true;
+			col =true;
 		}
 		if(ObjB>MarioT && MarioR>ObjL && MarioL<ObjR && ObjT<MarioT) {
 			collisionT = true;
+			col =true;
 			if(MSpeedY>0) {
 				MSpeedY=0;
 			}
 		}
+	}
+	public boolean collision(double MarioR, double MarioL, double MarioT, double MarioB, double ObjR,double ObjL, double ObjT, double ObjB, boolean Mario, boolean bool) {
+		//System.out.println(MSpeedY);
+		boolean col = false;
+
+
+		if(ObjR>MarioL && MarioB-5>ObjT && MarioT<ObjB && ObjR<MarioR) {
+			col =true;
+		}
+		if(ObjL<MarioR && MarioB-5>ObjT && MarioT<ObjB && ObjL>MarioL) {
+			col =true;
+		}
+		if(ObjT<MarioB && MarioR>ObjL && MarioL<ObjR && ObjB>MarioB) {
+			col =true;
+		}
+		if(ObjB>MarioT && MarioR>ObjL && MarioL<ObjR && ObjT<MarioT) {
+			col =true;
+		}
+		return col;
 	}
 
 }

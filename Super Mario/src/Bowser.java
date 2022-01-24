@@ -10,7 +10,7 @@ import java.net.URL;
 public class Bowser{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0,scale=1;
+	private double x =0,y=0,scale=1.25;
 	private double xSpeed = 0, ySpeed =0, BowserL=1;
 	public Bowser(double x, double y) {
 		img = getImage("/imgs/Bowser.png"); //load the image for Tree

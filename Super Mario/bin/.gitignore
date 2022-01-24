@@ -3,6 +3,7 @@
 /Background.class
 /Barrel.class
 /BasicZombie.class
+/Bowser.class
 /Brick.class
 /ConeHead.class
 /Crosshair.class
@@ -24,4 +25,3 @@
 /StillMario.class
 /ZombieBrains.class
 /Zomboss.class
-/Bowser.class
