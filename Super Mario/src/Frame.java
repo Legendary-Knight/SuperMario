@@ -25,10 +25,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ConeHead zc;
 	Zomboss zb;
 	Background b = new Background(0,0);
+	BowserC bc = new BowserC(0,-380);
+	Blackness black =new Blackness(-2200,0);
 	Peashooter p = new Peashooter(0,600);
 	Crosshair c = new Crosshair ();
 	DeadZombie dz[] = {new DeadZombie(0,0,0,0), new DeadZombie(0,0,0,0)} ;
 	Pipe p1= new Pipe(92,450);
+	ArrayList<BFire> fire = new ArrayList<BFire>();
+	
 	
 	Pipe[] pipes = {new Pipe(92,450), new Pipe(1000,450),new Pipe(5600,450), };
 	MarioWL MWL = new MarioWL(200,500);
@@ -39,7 +43,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
 	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
-	Bowser bowser = new Bowser(130*46, 125);
+	Bowser bowser = new Bowser(1200, 225);
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
 	
@@ -94,6 +98,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
 		if(!world2) {
 			if(j==0) {
 				for(int x=400; x<=400+46; x+=46) {
@@ -162,7 +167,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			*/
 	
-			bowser.paint(g);
+			//bowser.paint(g);
 	
 			
 			for(int i=0; i<goombas.length;i++) {
@@ -397,7 +402,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					for(int i=sky.size()-1; i>=0; i--) {
 						sky.get(i).setX(sky.get(i).getX()+MSpeedX);
 					}
-					bowser.setX(bowser.getX()+MSpeedX);
+					//bowser.setX(bowser.getX()+MSpeedX);
 				}
 				
 				
@@ -424,7 +429,105 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					MSpeedY=0;
 				}
 		}
+		
+		
+		
+		else {
+			
+			bc.paint(g);
+			black.paint(g);
+			if(MSpeedX!=0) {
+				lastD= MSpeedX;
+			}
+			
+			/*
+			for(int i=0; i<1000; i++) {
+				if(i%100==0) {
+					fire.add(new BFire(bowser.getX(), Math.random()*400+200));
+				}
+			}
+			*/
+			fire.add(new BFire(bowser.getX(), Math.random()*400+200));
+			for(int i=0; i<fire.size(); i++) {
+				fire.get(i).paint(g);
+			}
+			
+			MWL.setX(sm.getX());
+			MWL.setY(sm.getY());
+			MWR.setX(sm.getX());
+			MWR.setY(sm.getY());
+			
+			MJL.setX(sm.getX());
+			MJL.setY(sm.getY());
+			MJR.setX(sm.getX());
+			MJR.setY(sm.getY());
+			 
+			
+			//sm.paint(g);
+			
+			if( !collisionB) {
+				if((MSpeedX)>0 || lastD>0) {
+					MJL.paint(g);  
+				}
+				else if(MSpeedX<=0 || lastD<0) {
+					MJR.paint(g);
+				}
+			}
+			else { 
+				if((MSpeedX)>0) {
+					MWL.paint(g);  
+				}
+				else if(MSpeedX<0) {
+					MWR.paint(g);
+				} 
+				else if(collisionB){
+					sm.paint(g);
+				}
+			}
+			
+			bowser.paint(g);
+			
+			
+			collisionL=false;
+			collisionR=false;
+			collisionT=false;
+			collisionB=false;
+			
+			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bc.getX()+2200,bc.getX()+125,bc.getY()+911,bc.getY()+1000, true);
+			
+			if( (collisionL==false && MSpeedX>0) || (collisionR==false && MSpeedX<0)) {
+				bc.setX(bc.getX()+MSpeedX);
+				black.setX(black.getX()+MSpeedX);
+				bowser.setX(bowser.getX()+MSpeedX);
+			}
+			
+			
+			if((collisionB==false) || (marioJump<1)) {
+				/*
+				for(Background thisG: ground) {
+					thisG.setY((thisG.getY()+MSpeedY));
+				}
+				for(int i=0; i<bricks.length;i++) {
+					bricks[i].setY(bricks[i].getY()+MSpeedY);
+				}
+				p1.setY(p1.getY()+MSpeedY);
+				MSpeedY-=1;
+				marioJump++;
+				*/
+				sm.setY(sm.getY()-MSpeedY);
+				MSpeedY-=.8;
+				marioJump++;
+				
+	
+				
+			}
+			else {
+				MSpeedY=0;
+			}
+			
+		}
 
+		
 	}
 	
 	public static void main(String[] arg) {
@@ -564,9 +667,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		if(arg0.getKeyCode() == 40) {
+			/*
 			if(collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,pipes[2].getX()+92,pipes[2].getX(),pipes[2].getY(),pipes[2].getY()+250, true,true)) {
 				world2=true;
-			}
+			}*/
+			sm.setY(400);
+			world2=true;
 		}
 	}
 	
