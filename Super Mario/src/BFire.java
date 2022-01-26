@@ -10,7 +10,8 @@ import java.net.URL;
 public class BFire{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
+	private double x =0,y=0,scale=.4;
+
 	private double xSpeed = 5, ySpeed =0, goombaL=1;
 	public BFire(double x, double y) {
 		img = getImage("/imgs/Bfire.png"); //load the image for Tree
@@ -49,12 +50,12 @@ public class BFire{
 	
 	private void update() {
 		tx.setToTranslation(x,y);
-		tx.scale(.055, .055);
+		tx.scale(scale, scale);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(.25, .25);
+		tx.scale(scale, scale);
 	}
 	public double getX() {
 		return x;
@@ -84,7 +85,7 @@ public class BFire{
 		
 		xSpeed = newXSpeed;
 	}
-	public void setpeedY(double newYSpeed) {
+	public void setSpeedY(double newYSpeed) {
 		ySpeed = newYSpeed;
 	}
 	/*

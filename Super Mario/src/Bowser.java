@@ -77,14 +77,14 @@ public class Bowser{
 		return BowserL;
 	}
 	public void setSpeedX(double newXSpeed) {
-		
+		/*
 		if(newXSpeed!=0) {
 			BowserL=xSpeed/(Math.abs(xSpeed));
 		}
-		
+		*/
 		xSpeed = newXSpeed;
 	}
-	public void setpeedY(double newYSpeed) {
+	public void setSpeedY(double newYSpeed) {
 		ySpeed = newYSpeed;
 	}
 	/*
