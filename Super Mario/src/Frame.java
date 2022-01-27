@@ -26,7 +26,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Zomboss zb;
 	Background b = new Background(0,0);
 	BowserC bc = new BowserC(0,-380);
-	Blackness black =new Blackness(-2200,0);
+	Blackness black =new Blackness(-2100,0);
+	Blackness black2 =new Blackness(2200,0);
 	Peashooter p = new Peashooter(0,600);
 	Crosshair c = new Crosshair ();
 	DeadZombie dz[] = {new DeadZombie(0,0,0,0), new DeadZombie(0,0,0,0)} ;
@@ -41,13 +42,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	MarioJR MJR = new MarioJR(200,500);
 	StillMario sm = new StillMario(500,500);
 	ArrayList<Background> ground = new ArrayList<Background>();
+	ArrayList<Background> wall = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
 	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
 	Bowser bowser = new Bowser(1200, 225);
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
-	
+	int BH=3;
+	boolean jumpF=false, jumpF2=false;
 	double bowserJ=0;
 	boolean bowserJU= false;
 	boolean bowserS=false;
@@ -437,8 +440,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		else {
 			
+			
+			
+			
+			
+			black2.paint(g);
 			bc.paint(g);
 			black.paint(g);
+			if(wall.size()<9){
+				for(int y=-23; y<46*11; y+=46) {
+					wall.add(new Background(1950, y));
+				}
+			}
+			
+			for(int i=0; i<wall.size();i++) {
+				wall.get(i).paint(g);
+			}
+			
 			if(MSpeedX!=0) {
 				lastD= MSpeedX;
 			}
@@ -450,10 +468,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 			}
 			*/
-			if(fireIt%70==0) {
+			if(fireIt%70==0 && !bowserJU && !bowserS && !MarioDead) {
+				score++;
 				if(fireIt%700==0) {
 					bowserJ=sm.getX();
 					bowserJU=true;
+					jumpF= false;
+					jumpF2= false;
+					wait=0;
 				}
 				
 				else if(fireIt%350==0) {
@@ -473,6 +495,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				
 			}
 			fireIt++;
+			
+			/*
 			System.out.println(bowserJ);
 			if((bowser.getX()+100>bowserJ || bowser.getY()>=-100) && bowserJU) {
 				bowser.setSpeedX(10);
@@ -505,7 +529,60 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bowserJU=false;
 				bowser.setSpeedX(0);
 			}
-			
+			*/
+			System.out.println(bowser.getY());
+			if(bowserJU) {
+				if(bowser.getX()+100>bowserJ || bowser.getY()>=-100 && !jumpF) {
+					bowser.setSpeedX(10);
+					if(bowser.getY()>=-100) {
+						bowser.setSpeedY(-15);
+					}
+					
+					else {
+						bowser.setSpeedY(0);
+					}
+				}
+				else {
+					jumpF= true;
+					if(bowser.getY()<=225) {
+						bowser.setSpeedY(30);
+					}
+					else {
+						bowser.setSpeedY(0);
+						if(bowser.getY()>=225) {
+							bowserJU=false;
+							bowserS=true;
+						}
+					}
+					bowser.setSpeedX(0);
+				}
+			}
+			else if(bowserS && wait>=100) {
+				if(bowser.getX()<bc.getX()+1580 || bowser.getY()>=-100 && !jumpF2 ) {
+					bowser.setSpeedX(-10);
+					if(bowser.getY()>=-100) {
+						bowser.setSpeedY(-15);
+					}
+					else {
+						bowser.setSpeedY(0);
+					}
+				}
+				else {
+					jumpF2= true;
+					if(bowser.getY()<=225) {
+						bowser.setSpeedY(30);
+					}
+					else {
+						bowser.setSpeedY(0);
+						bowserS=false;
+					}
+					bowser.setSpeedX(0);
+				}
+			}
+			else {
+				wait++;
+			}
+
 			
 			
 			
@@ -551,21 +628,38 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					sm.paint(g);
 				}
 			}
+			g.setColor(new Color (200, 0, 0));
+			g.drawRect(250, 600, 800, 100);
+			g.fillRect(250, 600, (int) (800/3 * BH), 100);
+			if(BH>0) {
+				bowser.paint(g);
+			}
 			
-			bowser.paint(g);
 			
 			collisionL=false;
 			collisionR=false;
 			collisionT=false;
 			collisionB=false;
-			
-			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+300,bowser.getX(),bowser.getY(),bowser.getY()+280, true);
+			/*
+			g.setColor(new Color (200, 0, 0));
+			g.drawRect((int)bowser.getX(),(int)bowser.getY(), 150,200);
+			g.drawRect((int)bowser.getX()+150,(int)bowser.getY()+80, 150,200);
+			*/
+			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+150,bowser.getX(),bowser.getY(),bowser.getY()+200, true);
+			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+300,bowser.getX()+150,bowser.getY()+80,bowser.getY()+280, true);
+			if(collisionT) {
+				BH-=1;
+			}
+			collisionT=false;
 			for(int x=0; x<fire.size();x++) {
 				collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,fire.get(x).getX()+100,fire.get(x).getX(),fire.get(x).getY(),fire.get(x).getY()+60, true);
 				
 				//System.out.println(collisionB);
 			}
 			if(collisionL || collisionR || collisionB || collisionT) {
+				MarioDead=true;
+			}
+			if(sm.getY()>=700) {
 				MarioDead=true;
 			}
 	
@@ -599,17 +693,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			collisionR=false;
 			collisionT=false;
 			collisionB=false;
-			
+
 			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bc.getX()+2200,bc.getX()+125,bc.getY()+911,bc.getY()+1000, true);
-			
+			for(int i=0; i<wall.size();i++) {
+				collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,wall.get(i).getX()+46,wall.get(i).getX(),wall.get(i).getY(),wall.get(i).getY()+46, true);
+			}
 			if( (collisionL==false && MSpeedX>0) || (collisionR==false && MSpeedX<0)) {
 				bc.setX(bc.getX()+MSpeedX);
 				black.setX(black.getX()+MSpeedX);
+				black2.setX(black2.getX()+MSpeedX);
 				bowser.setX(bowser.getX()+MSpeedX);
 				for(int i=0; i<fire.size(); i++) {
 					fire.get(i).setX(fire.get(i).getX()+MSpeedX);
 				}
 				bowserJ+=MSpeedX;
+				for(int i=0; i<wall.size();i++) {
+					wall.get(i).setX(wall.get(i).getX()+MSpeedX);
+				}
 				
 			}
 			
@@ -638,6 +738,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			
 		}
+		g.setFont(new Font("ComicSans", Font.PLAIN, 30));
+		//prints the score
+		g.setColor(new Color (200, 0, 0));
+		g.drawString("Score: " + score, 650, 50);
+		//g.drawString("Timer: " + timer, 50, 50);
 
 		
 	}
@@ -650,7 +755,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		pvz.play();
 		*/
 		Music MJ = new Music("MJump.wav",false);
-		Music M = new Music("Super Mario Bros. Theme Song.wav",true);
+		Music M = new Music("Super Mario Bros. Theme Song.wav",false);
 		M.play();
 		
 		Frame f = new Frame();
