@@ -10,12 +10,14 @@ import java.net.URL;
 public class BowserC{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
+	private double x =0,y=0, XI, YI;
 	private double scale =1.2;
 	public BowserC(int x, int y) {
 		img = getImage("/imgs/BowserBridgeLong.png"); //load the image for Tree
 		this.x=x;
 		this.y=y;
+		XI=x;
+		YI=y;
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
@@ -82,5 +84,10 @@ public class BowserC{
 		}
 		return tempImage;
 	}
+	public void reset() {
+		x=XI;
+		y=YI;
+	}
+	
 
 }

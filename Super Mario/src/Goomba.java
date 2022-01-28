@@ -10,13 +10,14 @@ import java.net.URL;
 public class Goomba{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
+	private double x =0,y=0,XI,YI;
 	private double xSpeed = 5, ySpeed =0, goombaL=1;
 	public Goomba(double x, double y) {
 		img = getImage("/imgs/Goomba1.png"); //load the image for Tree
 		this.x = x; 
 		this.y= y;
-
+		XI=x;
+		YI=y;
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
 			
@@ -110,5 +111,10 @@ public class Goomba{
 		// TODO Auto-generated method stub
 		x=d;
 	}
+	public void reset() {
+		x=XI;
+		y=YI;
+	}
+		
 
 }

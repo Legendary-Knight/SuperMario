@@ -21,16 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
-	BasicZombie[] z = {new BasicZombie((Math.random()*730)+10,384),new BasicZombie((Math.random()*730)+10,384)};
-	ConeHead zc;
-	Zomboss zb;
+
 	Background b = new Background(0,0);
 	BowserC bc = new BowserC(0,-380);
 	Blackness black =new Blackness(-2100,0);
 	Blackness black2 =new Blackness(2200,0);
-	Peashooter p = new Peashooter(0,600);
-	Crosshair c = new Crosshair ();
-	DeadZombie dz[] = {new DeadZombie(0,0,0,0), new DeadZombie(0,0,0,0)} ;
 	Pipe p1= new Pipe(92,450);
 	ArrayList<BFire> fire = new ArrayList<BFire>();
 	
@@ -49,7 +44,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	
 	//Brick[] bricks = {new Brick(300-24,350),new Brick(346-24,350), new Brick(438-24,350), new Brick(484-24,350)};
+	boolean reset=false;
 	int BH=3;
+	int wait2=1000;
 	boolean jumpF=false, jumpF2=false;
 	double bowserJ=0;
 	boolean bowserJU= false;
@@ -82,17 +79,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	LawnMower L9 = new LawnMower(410, 425);
 	LawnMower L10 = new LawnMower(460, 425);
 	*/
-	LawnMower[] L = new LawnMower[11];
 	
 
 	
 	
 
-	ZombieBrains Death = new ZombieBrains (0,0);
-	boolean zomboss = false;
-	boolean conehead = false;
-	//type = 0;
-	int[] health = {1,1};
 	int wait =0;
 	int score=0;
 	boolean[] zombieKilled = {false,false};
@@ -100,10 +91,52 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	int timer = 1000;
 	int i =0;
 	int j =0;
+	int dead =0;
 	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		if(reset) {
+			j=0;
+			i=0;
+			reset = false;
+			MarioDead=false;
+			world2=false;
+			BH=3;
+			score=0;
+			sm.reset();
+			bowser.reset();
+			bc.reset();
+			black.reset();
+			black2.reset();
+			for(int i=0; i<goombas.length; i++) {
+				goombas[i].reset();
+				goombas[i].setSpeedX(5);
+			}
+			for(int i=0; i<pipes.length; i++) {
+				pipes[i].reset();
+			}
+			while(ground.size()!=0) {
+				ground.remove(0);
+			}
+			while(wall.size()!=0) {
+				wall.remove(0);
+			}
+			while(ground.size()!=0) {
+				ground.remove(0);
+			}
+			while(sky.size()!=0) {
+				sky.remove(0);
+			}
+			while(fire.size()!=0) {
+				fire.remove(0);
+			}
+			while(bricks.size()!=0) {
+				bricks.remove(0);
+			}
+		}
+		System.out.println(goombas[0].getX());
+		
 		
 		if(!world2) {
 			if(j==0) {
@@ -178,7 +211,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			for(int i=0; i<goombas.length;i++) {
 				goombas[i].paint(g);
-				
+				System.out.println("goomba");
 				if(goombas[i].getX()<-500 || goombas[i].getX()>1500) {
 					goombas[i].setSpeedX(0);
 				}
@@ -452,9 +485,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					wall.add(new Background(1950, y));
 				}
 			}
-			
-			for(int i=0; i<wall.size();i++) {
-				wall.get(i).paint(g);
+			if(BH!=0) {
+				for(int i=0; i<wall.size();i++) {
+					wall.get(i).paint(g);
+				}
 			}
 			
 			if(MSpeedX!=0) {
@@ -594,6 +628,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					fire.get(i).setSpeedY(-2);
 				}
 				fire.get(i).paint(g);
+				/*
+				g.setColor(new Color (200, 0, 0));
+				g.drawRect((int)fire.get(i).getX(),(int)fire.get(i).getY()+50, 200,50);
+				*/
 			}
 			
 			MWL.setX(sm.getX());
@@ -640,6 +678,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			collisionR=false;
 			collisionT=false;
 			collisionB=false;
+			
 			/*
 			g.setColor(new Color (200, 0, 0));
 			g.drawRect((int)bowser.getX(),(int)bowser.getY(), 150,200);
@@ -647,12 +686,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			*/
 			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+150,bowser.getX(),bowser.getY(),bowser.getY()+200, true);
 			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+300,bowser.getX()+150,bowser.getY()+80,bowser.getY()+280, true);
-			if(collisionT) {
+			if(collisionB && wait2>=1000) {
+				wait2=0;
 				BH-=1;
+				MSpeedY=10;
 			}
-			collisionT=false;
+			wait2++;
+			if(BH==0) {
+				bowser.setX(-2000);
+				bowser.setY(-2000);
+			}
+			collisionB=false;
 			for(int x=0; x<fire.size();x++) {
-				collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,fire.get(x).getX()+100,fire.get(x).getX(),fire.get(x).getY(),fire.get(x).getY()+60, true);
+				collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,fire.get(x).getX()+200,fire.get(x).getX(),fire.get(x).getY()+50,fire.get(x).getY()+100, true);
 				
 				//System.out.println(collisionB);
 			}
@@ -695,8 +741,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			collisionB=false;
 
 			collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,bc.getX()+2200,bc.getX()+125,bc.getY()+911,bc.getY()+1000, true);
-			for(int i=0; i<wall.size();i++) {
-				collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,wall.get(i).getX()+46,wall.get(i).getX(),wall.get(i).getY(),wall.get(i).getY()+46, true);
+			if(BH!=0) {
+				for(int i=0; i<wall.size();i++) {
+					collision(sm.getX()+40,sm.getX(),sm.getY(),sm.getY()+70,wall.get(i).getX()+46,wall.get(i).getX(),wall.get(i).getY(),wall.get(i).getY()+46, true);
+				}
 			}
 			if( (collisionL==false && MSpeedX>0) || (collisionR==false && MSpeedX<0)) {
 				bc.setX(bc.getX()+MSpeedX);
@@ -741,7 +789,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		g.setFont(new Font("ComicSans", Font.PLAIN, 30));
 		//prints the score
 		g.setColor(new Color (200, 0, 0));
-		g.drawString("Score: " + score, 650, 50);
+		g.drawString("Score: " + score, 500, 50);
+		
+		
+		if(MarioDead) {
+			g.setFont(new Font("ComicSans", Font.PLAIN, 60));
+			//prints the score
+			g.setColor(new Color (200, 0, 0));
+			g.drawString("Press Up to Reset" , 300, 300);
+		}
+		if(BH==0) {
+			g.setFont(new Font("ComicSans", Font.PLAIN, 80));
+			//prints the score
+			g.setColor(new Color (200, 0, 0));
+			g.drawString("YOU WIN!!!!!" , 300, 300);
+		}
 		//g.drawString("Timer: " + timer, 50, 50);
 
 		
@@ -881,6 +943,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			*/
 			
 			//stop=true;
+		}
+		if(arg0.getKeyCode() == 38 && MarioDead) {
+			reset=true;
 		}
 		
 		if(arg0.getKeyCode() == 40) {

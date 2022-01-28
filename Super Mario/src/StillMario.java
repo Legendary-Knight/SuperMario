@@ -10,7 +10,7 @@ import java.net.URL;
 public class StillMario{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0;
+	private double x =0,y=0,XI,YI;
 	private double scale =.22;
 	
 	public double getX() {
@@ -42,6 +42,8 @@ public class StillMario{
 		img = getImage("/imgs/Mario2.png"); //load the image for Tree
 		this.x=x;
 		this.y=y;
+		XI=x;
+		YI=y;
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
@@ -81,6 +83,11 @@ public class StillMario{
 			e.printStackTrace();
 		}
 		return tempImage;
+	}
+	
+	public void reset() {
+		x=XI;
+		y=YI;
 	}
 
 }

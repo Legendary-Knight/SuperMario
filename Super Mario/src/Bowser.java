@@ -10,12 +10,14 @@ import java.net.URL;
 public class Bowser{
 	private Image img; 	
 	private AffineTransform tx;
-	private double x =0,y=0,scale=1.25;
+	private double x =0,y=0,scale=1.25, XI, YI;
 	private double xSpeed = 0, ySpeed =0, BowserL=1;
 	public Bowser(double x, double y) {
 		img = getImage("/imgs/Bowser.png"); //load the image for Tree
 		this.x = x; 
 		this.y= y;
+		YI=y;
+		XI=x;
 
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		update(); 				//initialize the location of the image
@@ -109,6 +111,10 @@ public class Bowser{
 	public void setX(double d) {
 		// TODO Auto-generated method stub
 		x=d;
+	}
+	public void reset() {
+		x=XI;
+		y=YI;
 	}
 
 }
