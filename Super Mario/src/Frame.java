@@ -20,6 +20,30 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/*Comments
+ * 
+ * 
+ * very yum
+ * 
+ * I like the terrain generation
+ * 
+ * nicep roject
+ * legendary game 
+ * vwery cool, cvan't beat boweser
+ * 
+ * good game but clouds spawn on the ground
+ * very well made
+ * w
+ */
+
+
+/*
+ * control
+ * arrow keys to move
+ * press down at pipe to go to boss fight
+ * jump fast
+ * I WONNNNNNNNNNNN
+ */
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 
 	Background b = new Background(0,0);
@@ -39,7 +63,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Background> ground = new ArrayList<Background>();
 	ArrayList<Background> wall = new ArrayList<Background>();
 	ArrayList<Sky> sky = new ArrayList<Sky>();
-	Goomba[] goombas = {new Goomba(700,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
+	Goomba[] goombas = {new Goomba(800,500), new Goomba(46*6,500), new Goomba(46*9,500), new Goomba(46*55,500), new Goomba(46*60,500), new Goomba(46*65,500) , new Goomba(46*70,500), new Goomba(46*96,50), new Goomba(46*102,50), new Goomba(46*108,50)};
 	Bowser bowser = new Bowser(1200, 225);
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
 	
@@ -135,7 +159,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bricks.remove(0);
 			}
 		}
-		System.out.println(goombas[0].getX());
+		//System.out.println(goombas[0].getX());
 		
 		
 		if(!world2) {
@@ -211,7 +235,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 			for(int i=0; i<goombas.length;i++) {
 				goombas[i].paint(g);
-				System.out.println("goomba");
+				//System.out.println("goomba");
 				if(goombas[i].getX()<-500 || goombas[i].getX()>1500) {
 					goombas[i].setSpeedX(0);
 				}
@@ -564,7 +588,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				bowser.setSpeedX(0);
 			}
 			*/
-			System.out.println(bowser.getY());
+			//System.out.println(bowser.getY());
 			if(bowserJU) {
 				if(bowser.getX()+100>bowserJ || bowser.getY()>=-100 && !jumpF) {
 					bowser.setSpeedX(10);
@@ -591,8 +615,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					bowser.setSpeedX(0);
 				}
 			}
-			else if(bowserS && wait>=100) {
-				if(bowser.getX()<bc.getX()+1580 || bowser.getY()>=-100 && !jumpF2 ) {
+			else if(bowserS && wait>=200) {
+				if(bowser.getX()<bc.getX()+1630 || bowser.getY()>=-100 && !jumpF2 ) {
 					bowser.setSpeedX(-10);
 					if(bowser.getY()>=-100) {
 						bowser.setSpeedY(-15);
@@ -679,19 +703,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			collisionT=false;
 			collisionB=false;
 			
-			/*
+			
 			g.setColor(new Color (200, 0, 0));
 			g.drawRect((int)bowser.getX(),(int)bowser.getY(), 150,200);
 			g.drawRect((int)bowser.getX()+150,(int)bowser.getY()+80, 150,200);
-			*/
+			
 			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+150,bowser.getX(),bowser.getY(),bowser.getY()+200, true);
 			collision(sm.getX()+46,sm.getX(),sm.getY(),sm.getY()+70,bowser.getX()+300,bowser.getX()+150,bowser.getY()+80,bowser.getY()+280, true);
-			if(collisionB && wait2>=1000) {
+			if(collisionB && bowserS && wait2>=300) {
 				wait2=0;
 				BH-=1;
 				MSpeedY=10;
 			}
 			wait2++;
+			System.out.println(wait2);
 			if(BH==0) {
 				bowser.setX(-2000);
 				bowser.setY(-2000);
@@ -889,7 +914,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0.getKeyCode());
+		//System.out.println(arg0.getKeyCode());
 		if(arg0.getKeyCode() == 39 && collisionR==false) {
 			MSpeedX=-11;
 			time=0;
@@ -932,7 +957,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		if(arg0.getKeyCode() == 38 && collisionB==true && !MarioDead) {
 			marioJump=0;
-			MSpeedY=22;
+			MSpeedY=23;
 			Music MJ = new Music("MJump.wav",false);
 			MJ.play();
 			/*
